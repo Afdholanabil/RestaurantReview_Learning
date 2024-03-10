@@ -32,6 +32,7 @@ class MainViewModel : ViewModel() {
 
     init {
         findRestaurant()
+
     }
 
     private fun findRestaurant() {
@@ -59,7 +60,7 @@ class MainViewModel : ViewModel() {
         })
         }
 
-    private fun postReview(review: String) {
+    fun postReview(review: String) {
         _loading.value = true
         val client = ApiConfig.getApiService().postReview(RESTAURANT_ID, "Afdhola-nabil", review)
         client.enqueue(object : Callback<PostReviewResponse> {
