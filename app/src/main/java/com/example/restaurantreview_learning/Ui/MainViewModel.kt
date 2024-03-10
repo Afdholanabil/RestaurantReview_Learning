@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.restaurantreview_learning.data.response.CustomerReviewsItem
+import com.example.restaurantreview_learning.data.response.PostReviewResponse
 import com.example.restaurantreview_learning.data.response.Restaurant
 import com.example.restaurantreview_learning.data.response.RestaurantResponse
 import com.example.restaurantreview_learning.data.retrofit.ApiConfig
@@ -57,6 +58,29 @@ class MainViewModel : ViewModel() {
             }
         })
         }
+
+    private fun postReview(review: String) {
+        _loading.value = true
+        val client = ApiConfig.getApiService().postReview(RESTAURANT_ID, "Afdhola-nabil", review)
+        client.enqueue(object : Callback<PostReviewResponse> {
+            override fun onResponse(
+                call: Call<PostReviewResponse>,
+                response: Response<PostReviewResponse>
+            ) {
+                _loading.value = false
+                if (response.isSuccessful) {
+                   _listReview.value = response.body()?.customerReviews
+                } else {
+                    Log.e(TAG, "onFailure: ${response.message()}")
+                }
+            }
+            override fun onFailure(call: Call<PostReviewResponse>, t: Throwable) {
+                _loading.value = false
+                Log.e(TAG, "onFailure: ${t.message}")
+            }
+        })
+    }
+
 }
 
 
