@@ -24,6 +24,9 @@ class MainViewModel : ViewModel() {
     private val _loading = MutableLiveData<Boolean>()
     val loading : LiveData<Boolean> = _loading
 
+    private val _snackBar = MutableLiveData<String>()
+    val snackBack : LiveData<String> = _snackBar
+
     companion object{
         private const val TAG = "MainViewModel"
         private const val RESTAURANT_ID = "uewq1zg2zlskfw1e867"
