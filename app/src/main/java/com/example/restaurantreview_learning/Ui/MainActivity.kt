@@ -17,6 +17,7 @@ import com.example.restaurantreview_learning.data.response.Restaurant
 import com.example.restaurantreview_learning.data.response.RestaurantResponse
 import com.example.restaurantreview_learning.data.retrofit.ApiConfig
 import com.example.restaurantreview_learning.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,6 +48,10 @@ class MainActivity : AppCompatActivity() {
 
         mainViewModel.loading.observe(this){
             showLoading(it)
+        }
+
+        mainViewModel.snackBack.observe(this){
+            Snackbar.make(window.decorView.rootView, it, Snackbar.LENGTH_SHORT).show()
         }
 
         val layoutManager = LinearLayoutManager(this)

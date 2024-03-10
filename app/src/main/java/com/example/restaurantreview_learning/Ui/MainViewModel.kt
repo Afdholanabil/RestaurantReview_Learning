@@ -50,6 +50,7 @@ class MainViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     _restaurant.value = response.body()?.restaurant
                     _listReview.value = response.body()?.restaurant?.customerReviews
+                    _snackBar.value = response.body()?.message
                 }else {
                     Log.e(TAG,"onfailure: ${response.message()}")
 
