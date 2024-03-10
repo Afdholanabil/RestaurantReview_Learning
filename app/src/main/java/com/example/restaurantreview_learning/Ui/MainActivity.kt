@@ -51,7 +51,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         mainViewModel.snackBack.observe(this){
-            Snackbar.make(window.decorView.rootView, it, Snackbar.LENGTH_SHORT).show()
+            it.getContentIfNotHandled()?.let { snackBar ->
+                Snackbar.make(window.decorView.rootView, snackBar, Snackbar.LENGTH_SHORT).show()
+            }
+
         }
 
         val layoutManager = LinearLayoutManager(this)

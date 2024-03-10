@@ -9,6 +9,7 @@ import com.example.restaurantreview_learning.data.response.PostReviewResponse
 import com.example.restaurantreview_learning.data.response.Restaurant
 import com.example.restaurantreview_learning.data.response.RestaurantResponse
 import com.example.restaurantreview_learning.data.retrofit.ApiConfig
+import com.example.restaurantreview_learning.util.Event
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,8 +25,8 @@ class MainViewModel : ViewModel() {
     private val _loading = MutableLiveData<Boolean>()
     val loading : LiveData<Boolean> = _loading
 
-    private val _snackBar = MutableLiveData<String>()
-    val snackBack : LiveData<String> = _snackBar
+    private val _snackBar = MutableLiveData<Event<String>>()
+    val snackBack : LiveData<Event<String>> = _snackBar
 
     companion object{
         private const val TAG = "MainViewModel"
@@ -50,7 +51,7 @@ class MainViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     _restaurant.value = response.body()?.restaurant
                     _listReview.value = response.body()?.restaurant?.customerReviews
-                    _snackBar.value = response.body()?.message
+                    _snackBar.value = Event(response.body()?.message.toString())
                 }else {
                     Log.e(TAG,"onfailure: ${response.message()}")
 
