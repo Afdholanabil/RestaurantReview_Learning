@@ -38,45 +38,22 @@ class MainActivity : AppCompatActivity() {
         binding.rvReview.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.rvReview.addItemDecoration(itemDecoration)
-        findRestaurant()
+
 
         binding.btnSend.setOnClickListener { view ->
             postReview(binding.edReview.text.toString())
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
+
     }
 
-    private fun findRestaurant() {
-        showLoading(true)
-        val client = ApiConfig.getApiService().getRestaurant(RESTAURANT_ID)
-        client.enqueue(object : Callback<RestaurantResponse> {
-            override fun onResponse(
-                call: Call<RestaurantResponse>,
-                response: Response<RestaurantResponse>
-            ) {
-                showLoading(false)
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody != null) {
-                        responseBody.restaurant?.let { setRestaurantData(it) }
-                        responseBody.restaurant?.customerReviews?.let { setReviewData(it) }
-                    }
-                } else {
-                    Log.e(TAG, "onFailure: ${response.message()}")
-                }
-            }
-            override fun onFailure(call: Call<RestaurantResponse>, t: Throwable) {
-                showLoading(false)
-                Log.e(TAG, "onFailure: ${t.message}")
-            }
-        })
-    }
+
     private fun setRestaurantData(restaurant: Restaurant) {
         binding.tvTitle.text = restaurant.name
         binding.tvDescription.text = restaurant.description
         Glide.with(this@MainActivity)
-            .load("https://restaurant-api.dicoding.dev/images/large/${restaurant.pictureId}")
+            .load("https://restaurant-api.dicoding.dev/images/large/14")
             .into(binding.ivPicture)
     }
     private fun setReviewData(consumerReviews: List<CustomerReviewsItem?>) {
